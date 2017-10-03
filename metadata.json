@@ -1,0 +1,19 @@
+{
+  "name": "andrewandante-sushi",
+  "version": "1.0.0",
+  "author": "SilverStripe Ltd",
+  "license": "BSD-3-Clause",
+  "summary": "Provides environment variable support for SilverStripe Platforms",
+  "source": "https://github.com/andrewandante/puppet-sushi",
+  "project_page": "https://github.com/andrewandante/puppet-sushi",
+  "dependencies": [],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    }
+  ],
+  "tags": ["tools", "sushi", "env", "environment", "apache", "cli"]
+}

@@ -1,0 +1,5 @@
+class sushi (
+	$ensure = 'present',
+){
+
+}
