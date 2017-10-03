@@ -1,5 +1,5 @@
 {
-  "name": "andrewandante-sushi",
+  "name": "andrewandante-ss_sushi",
   "version": "1.0.0",
   "author": "SilverStripe Ltd",
   "license": "BSD-3-Clause",
@@ -15,5 +15,5 @@
       ]
     }
   ],
-  "tags": ["tools", "sushi", "env", "environment", "apache", "cli"]
+  "tags": ["sushi", "env", "environment", "apache", "cli", "ss_sushi"]
 }

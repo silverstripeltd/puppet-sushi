@@ -1,0 +1,19 @@
+# Managed by Puppet
+
+export SS_BASE_URL="//<%= @domain_name %>"
+export SS_IGNORE_DOTENV="true"
+
+# User-defined
+<%- @env_vars.each do |key, value| -%>
+export <%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>="<%= value.to_s().gsub('\\', '\\\\\\\\').gsub('"', '\\\\"') %>"
+<%end-%>
+
+# Ops-defined
+<% if @ops_env_vars %>
+	<% @ops_env_vars.each_pair do |key, hash| -%>
+		<%# Prevent including any variables that the user has already specified. %>
+		<% if not @env_vars.has_key?(key) %>
+export <%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>="<%= hash.to_s().gsub('\\', '\\\\\\\\').gsub('"', '\\\\"') %>"
+		<% end %>
+	<% end %>
+<% end %>

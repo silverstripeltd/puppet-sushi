@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Managed by Puppet
+
+if [[ "$EUID" -ne 0 ]]; then
+	echo "Must be run as root, otherwise won't be able to load env vars."
+	exit 2
+fi
+
+if [[ -z "$vhost" ]]; then
+	echo "Must pass a vhost parameter, exiting."
+	exit 2
+fi
+
+# Sets the environment variables
+for conf in <%= @cli_root %>/"$vhost"/*.conf
+do
+	source $conf
+done
+
+# Preserves env
+sudo -E -u www-data php <%= @vhost_root %>/"$vhost"/www/framework/cli-script.php $@
