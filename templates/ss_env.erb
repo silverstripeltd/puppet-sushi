@@ -1,0 +1,69 @@
+<?php
+/*
+ * Managed by puppet
+ */
+
+/* Patch for SS-2015-014 */
+foreach (array('isDevtoken', 'flushtoken', 'isTesttoken', 'devtoken') as $isRisky) {
+	if (isset($_REQUEST[$isRisky]) && $_REQUEST[$isRisky]==='') {
+		header('HTTP/1.0 403 Forbidden');
+		exit();
+	}
+}
+
+if (file_exists('<%= @master_file_dir %>/_ss_environment_db.php')) {
+	require_once('<%= @master_file_dir %>/_ss_environment_db.php');
+}
+
+if (file_exists('<%= @master_file_dir %>/_ss_environment_es.php')) {
+	require_once('<%= @master_file_dir %>/_ss_environment_es.php');
+}
+
+if (file_exists(dirname(__FILE__) . '/_ss_environment.auth')) {
+	$data = json_decode(file_get_contents(dirname(__FILE__) . '/_ss_environment.auth'), true);
+	if($data && isset($data['user']) && isset($data['pass'])) {
+		define('SS_DEFAULT_ADMIN_USERNAME', (string)($data['user']));
+		define('SS_DEFAULT_ADMIN_PASSWORD', (string)($data['pass']));
+	}
+}
+
+<%# we are checking SS_DEFAULT* specifically in the blocks below so that if the auth file above is in place
+	it will take prescendence over the variables if they may be configured, also to avoid a "constant already defined" error. %>
+<% @env_vars.each_pair do |key, hash| -%>
+	<%- if key.to_s() == "SS_DEFAULT_ADMIN_USERNAME" || key.to_s() == "SS_DEFAULT_ADMIN_PASSWORD" -%>
+	if (!defined('<%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>')) {
+	<%- end -%>
+	define('<%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>', '<%= hash.to_s().gsub('\\', '\\\\\\\\').gsub("'", "\\\\'") %>');
+	<%- if key.to_s() == "SS_DEFAULT_ADMIN_USERNAME" || key.to_s() == "SS_DEFAULT_ADMIN_PASSWORD" -%>
+	}
+	<%- end -%>
+<%end-%>
+
+<% if @ops_env_vars %>
+	<% @ops_env_vars.each_pair do |key, hash| -%>
+		<%# Prevent including any variables that the user has already specified. %>
+		<% if not @env_vars.has_key?(key) %>
+			<%- if key.to_s() == "SS_DEFAULT_ADMIN_USERNAME" || key.to_s() == "SS_DEFAULT_ADMIN_PASSWORD" -%>
+			if (!defined('<%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>')) {
+			<%- end -%>
+			define('<%= key.to_s().gsub(/[^0-9A-Za-z_]/, '_') %>', '<%= hash.to_s().gsub('\\', '\\\\\\\\').gsub("'", "\\\\'") %>');
+			<%- if key.to_s() == "SS_DEFAULT_ADMIN_USERNAME" || key.to_s() == "SS_DEFAULT_ADMIN_PASSWORD" -%>
+			}
+			<%- end -%>
+		<% end %>
+	<% end %>
+<% end %>
+
+global $_FILE_TO_URL_MAPPING;
+$_FILE_TO_URL_MAPPING['<%= @master_file_dir %>/www/'] = 'http://<%= @domain_name %>';
+// For symlinked webroots
+$_FILE_TO_URL_MAPPING[realpath('<%= @master_file_dir %>/www/')] = 'http://<%= @domain_name %>';
+
+// Special case for deploynaut releases
+if(isset($_SERVER['SCRIPT_FILENAME'])) {
+	$_FILE_TO_URL_MAPPING[dirname(dirname($_SERVER['SCRIPT_FILENAME']))] = 'http://<%= @domain_name %>';
+}
+
+if(file_exists('<%= @master_file_dir %>/_ss_environment_secrets.php')) {
+	require_once('<%= @master_file_dir %>/_ss_environment_secrets.php');
+}
