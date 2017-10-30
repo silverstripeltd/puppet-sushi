@@ -10,13 +10,6 @@ define ss_sushi::ss_env (
 
 
 	if ($vhost_name != undef) {
-		file { "$root_dir/$vhost_name":
-			ensure => directory,
-			owner => "www-data",
-			group => "www-data",
-			mode => "0755",
-			require => File[$root_dir],
-	}
 		$master_file_dir = "$root_dir/$vhost_name"
 	} else {
 		$master_file_dir = $root_dir

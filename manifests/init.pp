@@ -32,31 +32,6 @@ class ss_sushi (
 		mode => "0644",
 	}
 
-
-	file { $vhost_root:
-		ensure => directory,
-		owner => "root",
-		group => "root",
-		mode => "0755",
-		onlyif => "test ! -d $vhost_root"
-	}
-
-	file { "$vhost_root/$vhost_name/shared":
-		ensure => directory,
-		owner => "www-data",
-		group => "www-data",
-		mode => "0644",
-		onlyif => "test ! -d $vhost_root/$vhost_name/shared"
-	}
-
-	file { "$vhost_root/$vhost_name/releases":
-		ensure => directory,
-		owner => "www-data",
-		group => "www-data",
-		mode => "0644",
-		onlyif => "test ! -d $vhost_root/$vhost_name/releases"
-	}
-
 	file { "/usr/local/bin/sushi":
 		ensure => present,
 		content => template("ss_sushi/sushi_script.erb"),
@@ -64,11 +39,4 @@ class ss_sushi (
 		group => "root",
 		mode => "0700",
 	}
-
-	file { "/var/www/html":
-		ensure => absent,
-		recurse => true,
-		force => true
-	}
-
 }
