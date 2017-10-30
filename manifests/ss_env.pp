@@ -20,7 +20,6 @@ define ss_sushi::ss_env (
 		owner => $owner,
 		group => $group,
 		mode => "0600",
-		notify => Service['httpd'],
 		require => File[$master_file_dir],
 	}
 

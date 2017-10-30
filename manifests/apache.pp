@@ -26,7 +26,7 @@ define ss_sushi::apache (
 		owner => $owner,
 		group => $group,
 		mode => "0600",
-		notify => Service['httpd'],
+		notify => Service['apache'],
 		require => File[$master_file_dir],
 	}
 
