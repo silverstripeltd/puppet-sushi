@@ -38,16 +38,23 @@ class ss_sushi (
 		owner => "root",
 		group => "root",
 		mode => "0755",
+		onlyif => "test ! -d $vhost_root"
 	}
 
-	file { [
-		"$vhost_root/$vhost_name/shared",
-		"$vhost_root/$vhost_name/releases"
-	]:
+	file { "$vhost_root/$vhost_name/shared":
 		ensure => directory,
 		owner => "www-data",
 		group => "www-data",
-		mode => "0644"
+		mode => "0644",
+		onlyif => "test ! -d $vhost_root/$vhost_name/shared"
+	}
+
+	file { "$vhost_root/$vhost_name/releases":
+		ensure => directory,
+		owner => "www-data",
+		group => "www-data",
+		mode => "0644",
+		onlyif => "test ! -d $vhost_root/$vhost_name/releases"
 	}
 
 	file { "/usr/local/bin/sushi":
