@@ -4,8 +4,8 @@ define ss_sushi::apache (
 	$root_dir = "/etc/apache2/platform-variables",
 	$vhost_name = "mysite",
 	$file_name = "10-master.conf",
-	$owner = "root",
-	$group = "root",
+	$owner = "www-data",
+	$group = "www-data",
 ) {
 
 	if ($vhost_name != undef) {
