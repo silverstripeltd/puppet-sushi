@@ -17,5 +17,14 @@ do
 	source $conf
 done
 
+if [ -f <%= @vhost_root %>/"$vhost"/www/framework/cli-script.php ]; then
+	CLI_SCRIPT_PATH=<%= @vhost_root %>/"$vhost"/www/framework/cli-script.php
+elif [ -f <%= @vhost_root %>/"$vhost"/www/vendor/silverstripe/framework/cli-script.php ]; then
+	CLI_SCRIPT_PATH=<%= @vhost_root %>/"$vhost"/www/vendor/silverstripe/framework/cli-script.php
+else
+	echo "No valid cli-script.php path found, exiting"
+	exit 2
+fi
+
 # Preserves env
-sudo -E -u www-data php <%= @vhost_root %>/"$vhost"/www/framework/cli-script.php $@
+sudo -E -u www-data php "$CLI_SCRIPT_PATH" $@
