@@ -26,7 +26,7 @@ define ss_sushi::apache (
 		owner => $owner,
 		group => $group,
 		mode => "0600",
-		notify => Service['apache'],
+		notify => Exec['/etc/init.d/apache2 reload'],
 		require => File[$master_file_dir],
 	}
 
