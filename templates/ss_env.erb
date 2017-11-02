@@ -19,12 +19,17 @@ if (file_exists('<%= @master_file_dir %>/_ss_environment_es.php')) {
 	require_once('<%= @master_file_dir %>/_ss_environment_es.php');
 }
 
-if (file_exists(dirname(__FILE__) . '/_ss_environment.auth')) {
-	$data = json_decode(file_get_contents(dirname(__FILE__) . '/_ss_environment.auth'), true);
+if (file_exists('<%= @master_file_dir %>/_ss_environment.auth')) {
+	$data = json_decode(file_get_contents('<%= @master_file_dir %>/_ss_environment.auth'), true);
 	if($data && isset($data['user']) && isset($data['pass'])) {
 		define('SS_DEFAULT_ADMIN_USERNAME', (string)($data['user']));
 		define('SS_DEFAULT_ADMIN_PASSWORD', (string)($data['pass']));
 	}
+}
+
+/* If you wish to add environment configuration that's not managed by puppet, you can do so in _ss_environment.local.php */
+if(file_exists('<%= @master_file_dir %>/_ss_environment.local.php')) {
+  require_once('<%= @master_file_dir %>/_ss_environment.local.php');
 }
 
 <%# we are checking SS_DEFAULT* specifically in the blocks below so that if the auth file above is in place

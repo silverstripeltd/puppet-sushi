@@ -5,8 +5,8 @@ define ss_sushi::cli (
 	$vhost_root = "/var/www",
 	$vhost_name = "mysite",
 	$file_name = "10-master.conf",
-	$owner = "root",
-	$group = "root",
+	$owner = "www-data",
+	$group = "www-data",
 ) {
 
 	if ($vhost_name != undef) {

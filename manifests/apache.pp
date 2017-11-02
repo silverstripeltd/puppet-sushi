@@ -4,8 +4,8 @@ define ss_sushi::apache (
 	$root_dir = "/etc/apache2/platform-variables",
 	$vhost_name = "mysite",
 	$file_name = "10-master.conf",
-	$owner = "root",
-	$group = "root",
+	$owner = "www-data",
+	$group = "www-data",
 ) {
 
 	if ($vhost_name != undef) {
@@ -26,7 +26,7 @@ define ss_sushi::apache (
 		owner => $owner,
 		group => $group,
 		mode => "0600",
-		notify => Service['httpd'],
+		notify => Service['apache'],
 		require => File[$master_file_dir],
 	}
 
