@@ -6,6 +6,7 @@ define ss_sushi::apache (
 	$file_name = "10-master.conf",
 	$owner = "www-data",
 	$group = "www-data",
+	$apache_service_name = "apache"
 ) {
 
 	if ($vhost_name != undef) {
@@ -26,7 +27,7 @@ define ss_sushi::apache (
 		owner => $owner,
 		group => $group,
 		mode => "0600",
-		notify => Exec['/etc/init.d/apache2 reload'],
+		notify => Service[$apache_service_name],
 		require => File[$master_file_dir],
 	}
 

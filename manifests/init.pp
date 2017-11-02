@@ -5,7 +5,8 @@ class ss_sushi (
 	$vhost_name = "mysite",
 	$vhost_root = "/var/www",
 	$apache_root = "/etc/apache2/platform-variables",
-	$cli_root = "/etc/platform-variables"
+	$cli_root = "/etc/platform-variables",
+	$apache_service_name = "apache"
 ) {
 
 	ss_sushi::vhost { $vhost_name:
@@ -15,7 +16,8 @@ class ss_sushi (
 		vhost_name => $vhost_name,
 		vhost_root => $vhost_root,
 		apache_root => $apache_root,
-		cli_root => $cli_root
+		cli_root => $cli_root,
+		apache_service_name => $apache_service_name
 	}
 
 	file { $apache_root:

@@ -5,13 +5,15 @@ define ss_sushi::vhost (
 	$vhost_name = "mysite",
 	$vhost_root = "/var/www",
 	$apache_root = "/etc/apache2/platform-variables",
-	$cli_root = "/etc/platform-variables"
+	$cli_root = "/etc/platform-variables",
+	$apache_service_name = "apache"
 ) {
 	ss_sushi::apache { "$vhost_name/10-master.conf":
 		env_vars => $env_vars,
 		ops_env_vars => $ops_env_vars,
 		vhost_name => $vhost_name,
-		root_dir => $apache_root
+		root_dir => $apache_root,
+		apache_service_name => $apache_service_name
 	}
 
 	ss_sushi::cli { "$vhost_name/10-master.conf":
