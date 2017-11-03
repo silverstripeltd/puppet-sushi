@@ -2,12 +2,12 @@
 # Managed by Puppet
 
 if [[ "$EUID" -ne 0 ]]; then
-	echo "Must be run as root, otherwise won't be able to load env vars."
+	echo "Must be run as root, otherwise won't be able to load env vars." >&2
 	exit 2
 fi
 
 if [[ -z "$vhost" ]]; then
-	echo "Must pass a vhost parameter, exiting."
+	echo "Must pass a vhost parameter, exiting." >&2
 	exit 2
 fi
 
@@ -22,7 +22,7 @@ if [ -f <%= @vhost_root %>/"$vhost"/www/framework/sake ]; then
 elif [ -f <%= @vhost_root %>/"$vhost"/www/vendor/bin/sake ]; then
 	SAKE_PATH=<%= @vhost_root %>/"$vhost"/www/vendor/bin/sake
 else
-	echo "No valid sake path found, exiting"
+	echo "No valid sake path found, exiting" >&2
 	exit 2
 fi
 
