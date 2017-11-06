@@ -26,5 +26,8 @@ else
 	exit 2
 fi
 
+# Make sure it is executable
+chmod +x "$SAKE_PATH"
+
 # Preserves env
 sudo -E -u www-data "$SAKE_PATH" $@
