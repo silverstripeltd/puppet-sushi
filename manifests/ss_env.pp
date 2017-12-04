@@ -19,7 +19,7 @@ define ss_sushi::ss_env (
 		content => template("ss_sushi/ss_env.erb"),
 		owner => $owner,
 		group => $group,
-		mode => "0600",
+		mode => "0640",
 		require => File[$master_file_dir],
 	}
 
