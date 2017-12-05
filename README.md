@@ -1,5 +1,7 @@
 # Puppet Sushi
 
+[![Build Status](https://scrutinizer-ci.com/g/andrewandante/puppet-sushi/badges/build.png?b=master)](https://scrutinizer-ci.com/g/andrewandante/puppet-sushi/build-status/master)
+
 Consolidates environment variables for Apache, CLI and `_ss_environment.php`.
 
 Introduces the script `/usr/local/bin/sushi` that should replace all calls to `framework/cli-script.php` or `framework/sake` i.e.
