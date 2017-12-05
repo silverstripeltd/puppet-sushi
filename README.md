@@ -63,3 +63,12 @@ Create a file called `local.conf` in `/etc/platform-variables/<vhost>` - there s
 ### Apache
 
 Create a file called `local.conf` in `/etc/apache2/platform-variables/<vhost>` - there should be a file called `10-master.conf` there. Once created, make sure you reload apache - `sudo /etc/init.d/apache2 reload` - to add the env vars in.
+
+
+## Contribute
+
+Use `develop` branch.
+
+Run `puppet-lint --no-hard_tabs-check --no-2sp_soft_tabs-check --fix .` in the module root to get the syntax all nicey.
+
+Install with `gem install puppet-lint` else you might end up with a too-low version of `puppet-lint`.
