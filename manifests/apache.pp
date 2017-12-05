@@ -12,8 +12,8 @@ define ss_sushi::apache (
 	if ($vhost_name != undef) {
 		file { "${root_dir}/${vhost_name}":
 			ensure  => directory,
-			owner   => 'www-data',
-			group   => 'www-data',
+			owner   => $owner,
+			group   => $group,
 			mode    => '0644',
 			require => File[$root_dir],
 	}
