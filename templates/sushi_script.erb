@@ -17,10 +17,18 @@ do
 	source $conf
 done
 
-if [ -f <%= @vhost_root %>/"$vhost"/www/framework/sake ]; then
-	SAKE_PATH=<%= @vhost_root %>/"$vhost"/www/framework/sake
-elif [ -f <%= @vhost_root %>/"$vhost"/www/vendor/bin/sake ]; then
-	SAKE_PATH=<%= @vhost_root %>/"$vhost"/www/vendor/bin/sake
+# Try to use the latest release, fall back to www if we can't find any
+NUM_RELEASES=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep -c ^d)
+if [ "$NUM_RELEASES" -eq 0 ]; then
+	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
+else
+	RELEASE_DIR=$(ls -td <%= @vhost_root %>/"$vhost"/releases/*/ | head -1)
+fi
+
+if [ -f "$RELEASE_DIR"/framework/sake ]; then
+	SAKE_PATH="$RELEASE_DIR"/framework/sake
+elif [ -f "$RELEASE_DIR"/vendor/bin/sake ]; then
+	SAKE_PATH="$RELEASE_DIR"/vendor/bin/sake
 else
 	echo "No valid sake path found, exiting" >&2
 	exit 2
