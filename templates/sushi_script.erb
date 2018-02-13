@@ -18,11 +18,11 @@ do
 done
 
 # Try to use the latest release, fall back to www if we can't find any
-NUM_RELEASES=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep -c ^d)
+NUM_RELEASES=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep -c ^d || true)
 if [ "$NUM_RELEASES" -eq 0 ]; then
 	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
 else
-	RELEASE_DIR=$(ls -td <%= @vhost_root %>/"$vhost"/releases/*/ | head -1)
+	RELEASE_DIR=$(ls -td <%= @vhost_root %>/"$vhost"/releases/*/ | head -1 || true)
 fi
 
 if [ -f "$RELEASE_DIR"/framework/sake ]; then
