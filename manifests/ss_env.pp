@@ -8,7 +8,6 @@ define ss_sushi::ss_env (
 	$group = 'www-data',
 ) {
 
-
 	if ($vhost_name != undef) {
 		$master_file_dir = "${root_dir}/${vhost_name}"
 	} else {
