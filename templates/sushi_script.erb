@@ -17,13 +17,8 @@ do
 	source $conf
 done
 
-# Try to use the latest release, fall back to www if we can't find any
-NUM_RELEASES=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep -c ^d || true)
-if [ "$NUM_RELEASES" -eq 0 ]; then
-	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
-else
-	RELEASE_DIR=$(ls -td <%= @vhost_root %>/"$vhost"/releases/*/ | head -1 || true)
-fi
+# Use www directory to ensure correct release is used
+RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
 
 if [ -f "$RELEASE_DIR"/framework/sake ]; then
 	SAKE_PATH="$RELEASE_DIR"/framework/sake
