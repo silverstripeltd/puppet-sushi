@@ -14,6 +14,13 @@ Introduces the script `/usr/local/bin/sushi` that should replace all calls to `f
 vhost=mysite /usr/local/bin/sushi dev/build
 ```
 
+By default sushi will run against the web root, but you can define a release to run against i.e.
+
+```bash
+vhost=mysite release=/path/to/myrelease /usr/local/bin/sushi dev/build
+```
+
+
 ## How to use it
 
 Define your variables as a key => value array
