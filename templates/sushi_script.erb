@@ -24,16 +24,19 @@ else
 	RELEASE_DIR="$release"/
 fi
 
-if [ -f "$RELEASE_DIR"/framework/sake ]; then
-	SAKE_PATH="$RELEASE_DIR"/framework/sake
-elif [ -f "$RELEASE_DIR"/vendor/bin/sake ]; then
-	SAKE_PATH="$RELEASE_DIR"/vendor/bin/sake
+# Change directories so we can run sake reliably
+cd "$RELEASE_DIR"
+
+if [ -f framework/sake ]; then
+	SAKE_PATH=framework/sake
+elif [ -f vendor/bin/sake ]; then
+	SAKE_PATH=vendor/bin/sake
 else
 	echo "No valid sake path found, exiting" >&2
 	exit 2
 fi
 
-# Make sure it is executable
+# Make sure sake is executable
 chmod +x "$SAKE_PATH"
 
 # Preserves env
