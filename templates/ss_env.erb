@@ -72,3 +72,10 @@ if(isset($_SERVER['SCRIPT_FILENAME'])) {
 if(file_exists('<%= @master_file_dir %>/_ss_environment_secrets.php')) {
 	require_once('<%= @master_file_dir %>/_ss_environment_secrets.php');
 }
+
+<%# Temporary fix for defining COMPOSER_HOME required to prevent a permission error when executing the UpdatePackageInfoTask in module bringyourownideas/silverstripe-maintenance %>
+<%# See issue https://github.com/bringyourownideas/silverstripe-maintenance/issues/121 %>
+if (!getenv('COMPOSER_HOME')) {
+	$tmpDir = sys_get_temp_dir();
+	putenv('COMPOSER_HOME=' . $tmpDir);
+}
