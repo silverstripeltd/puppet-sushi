@@ -69,8 +69,17 @@ if(isset($_SERVER['SCRIPT_FILENAME'])) {
 	$_FILE_TO_URL_MAPPING[dirname(dirname($_SERVER['SCRIPT_FILENAME']))] = 'http://<%= @domain_name %>';
 }
 
+// Secrets manually provisioned onto the server
 if(file_exists('<%= @master_file_dir %>/_ss_environment_secrets.php')) {
 	require_once('<%= @master_file_dir %>/_ss_environment_secrets.php');
+}
+
+// Secrets provisioned through Muna
+foreach (['env', 'stack', 'cluster', 'platform'] as $namespace) {
+  $envFile = sprintf('<%= @master_file_dir %>/_ss_environment_secrets_%s.php', $namespace);
+  if (file_exists($envFile)) {
+    require_once($envFile);
+  }
 }
 
 <%# Temporary fix for defining COMPOSER_HOME required to prevent a permission error when executing the UpdatePackageInfoTask in module bringyourownideas/silverstripe-maintenance %>
