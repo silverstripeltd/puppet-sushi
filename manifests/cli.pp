@@ -1,5 +1,6 @@
 define ss_sushi::cli (
 	$env_vars,
+	$domain_name,
 	$ops_env_vars = undef,
 	$root_dir = '/etc/platform-variables',
 	$vhost_root = '/var/www',

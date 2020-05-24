@@ -1,5 +1,6 @@
 define ss_sushi::apache (
 	$env_vars,
+	$domain_name,
 	$ops_env_vars = undef,
 	$root_dir = '/etc/apache2/platform-variables',
 	$vhost_name = 'mysite',

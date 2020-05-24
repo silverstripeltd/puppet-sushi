@@ -1,5 +1,6 @@
 define ss_sushi::ss_env (
 	$env_vars,
+	$domain_name,
 	$ops_env_vars = undef,
 	$root_dir = '/var/www',
 	$vhost_name = 'mysite',

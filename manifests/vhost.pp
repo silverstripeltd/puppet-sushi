@@ -16,6 +16,7 @@ define ss_sushi::vhost (
 ) {
 	ss_sushi::apache { "${vhost_name}/10-master.conf":
 		env_vars            => $env_vars,
+		domain_name         => $domain_name,
 		ops_env_vars        => $ops_env_vars,
 		vhost_name          => $vhost_name,
 		root_dir            => $apache_root,
@@ -26,6 +27,7 @@ define ss_sushi::vhost (
 
 	ss_sushi::cli { "${vhost_name}/10-master.conf":
 		env_vars     => $env_vars,
+		domain_name  => $domain_name,
 		ops_env_vars => $ops_env_vars,
 		vhost_name   => $vhost_name,
 		vhost_root   => $vhost_root,
@@ -36,6 +38,7 @@ define ss_sushi::vhost (
 
 	ss_sushi::ss_env { "${vhost_name}/_ss_environment.php":
 		env_vars     => $env_vars,
+		domain_name  => $domain_name,
 		vhost_name   => $vhost_name,
 		ops_env_vars => $ops_env_vars,
 		root_dir     => $vhost_root,
