@@ -53,4 +53,12 @@ class ss_sushi (
 		group   => 'root',
 		mode    => '0700',
 	}
+
+	file { "${cli_root}/deploy.ini":
+		ensure => present,
+		owner  => $cli_owner,
+		group  => $cli_group,
+		source => 'puppet:///modules/ss_sushi/deploy.ini',
+		mode   => '0644',
+	}
 }
