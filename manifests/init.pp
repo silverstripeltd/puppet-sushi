@@ -4,10 +4,10 @@ class ss_sushi (
 	$ops_env_vars = undef,
 	$vhost_name = 'mysite',
 	$vhost_root = '/var/www',
-	$apache_root = '/etc/apache2/platform-variables',
+	$apache_root = undef,
 	$apache_owner = 'root',
 	$apache_group = 'root',
-	$cli_root = '/etc/platform-variables',
+	$cli_root = undef,
 	$cli_owner = 'www-data',
 	$cli_group = 'www-data',
 	$ss_env_owner = 'www-data',
@@ -32,20 +32,6 @@ class ss_sushi (
 		apache_service_name => $apache_service_name
 	}
 
-	file { $apache_root:
-		ensure => directory,
-		owner  => $apache_owner,
-		group  => $apache_group,
-		mode   => '0644',
-	}
-
-	file { $cli_root:
-		ensure => directory,
-		owner  => $cli_owner,
-		group  => $cli_group,
-		mode   => '0644',
-	}
-
 	file { '/usr/local/bin/sushi':
 		ensure  => present,
 		content => template('ss_sushi/sushi_script.erb'),
@@ -54,11 +40,13 @@ class ss_sushi (
 		mode    => '0700',
 	}
 
-	file { "${cli_root}/deploy.ini":
-		ensure => present,
-		owner  => $cli_owner,
-		group  => $cli_group,
-		source => 'puppet:///modules/ss_sushi/deploy.ini',
-		mode   => '0644',
+	if $cli_root {
+		file { "${cli_root}/deploy.ini":
+			ensure => present,
+			owner  => $cli_owner,
+			group  => $cli_group,
+			source => 'puppet:///modules/ss_sushi/deploy.ini',
+			mode   => '0644',
+		}
 	}
 }
