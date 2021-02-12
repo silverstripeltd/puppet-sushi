@@ -1,36 +1,26 @@
 define ss_sushi::cli (
-	$env_vars,
-	$domain_name,
-	$ops_env_vars = undef,
-	$root_dir = '/etc/platform-variables',
-	$vhost_root = '/var/www',
-	$vhost_name = 'mysite',
-	$file_name = '10-master.conf',
-	$owner = 'www-data',
-	$group = 'www-data',
+	Array                $env_vars     = [],
+	String               $domain_name  = undef,
+	Optional[Array]      $ops_env_vars = undef,
+	Stdlib::Absolutepath $file_dir     = undef,
+	String               $ini_mode     = '0644',
+	String               $file_name    = '10-master.conf',
+	String               $file_owner   = 'www-data',
+	String               $file_group   = 'www-data',
+	String               $file_mode    = '0600',
 ) {
-
-	if ($vhost_name != undef) {
-		file { "${root_dir}/${vhost_name}":
-			ensure  => directory,
-			owner   => $owner,
-			group   => $group,
-			mode    => '0644',
-			require => File[$root_dir],
-		}
-		$master_file_dir = "${root_dir}/${vhost_name}"
-	} else {
-		$master_file_dir = $root_dir
+	file { "${file_dir}/deploy.ini":
+		ensure => present,
+		owner  => $file_owner,
+		group  => $file_group,
+		source => 'puppet:///modules/ss_sushi/deploy.ini',
+		mode   => $ini_mode,
 	}
 
-	file { "${master_file_dir}/${file_name}":
+	file { "${file_dir}/${file_name}":
 		content => template('ss_sushi/cli.erb'),
-		owner   => $owner,
-		group   => $group,
-		mode    => '0600',
-		require => File[$master_file_dir],
+		owner   => $file_owner,
+		group   => $file_group,
+		mode    => $file_mode,
 	}
-
-
-
 }

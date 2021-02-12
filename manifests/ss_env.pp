@@ -1,26 +1,17 @@
 define ss_sushi::ss_env (
-	$env_vars,
-	$domain_name,
-	$ops_env_vars = undef,
-	$root_dir = '/var/www',
-	$vhost_name = 'mysite',
-	$file_name = '_ss_environment.php',
-	$owner = 'www-data',
-	$group = 'www-data',
+	Array                $env_vars     = [],
+	String               $domain_name  = undef,
+	Optional[Array]      $ops_env_vars = undef,
+	Stdlib::Absolutepath $file_dir     = '/var/www',
+	String               $file_name    = '_ss_environment.php',
+	String               $file_owner   = 'www-data',
+	String               $file_group   = 'www-data',
+	String               $file_mode    = '0640',
 ) {
-
-	if ($vhost_name != undef) {
-		$master_file_dir = "${root_dir}/${vhost_name}"
-	} else {
-		$master_file_dir = $root_dir
-	}
-
-	file { "${master_file_dir}/${file_name}":
+	file { "${file_dir}/${file_name}":
 		content => template('ss_sushi/ss_env.erb'),
-		owner   => $owner,
-		group   => $group,
-		mode    => '0640',
-		require => File[$master_file_dir],
+		owner   => $file_owner,
+		group   => $file_group,
+		mode    => $file_mode,
 	}
-
 }
