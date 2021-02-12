@@ -3,12 +3,16 @@ define ss_sushi::cli (
 	String               $domain_name  = undef,
 	Optional[Array]      $ops_env_vars = undef,
 	Stdlib::Absolutepath $file_dir     = undef,
-	String               $ini_mode     = '0644',
-	String               $file_name    = '10-master.conf',
-	String               $file_owner   = 'www-data',
-	String               $file_group   = 'www-data',
-	String               $file_mode    = '0600',
+	String               $ini_mode     = $ss_sushi::cli_ini_mode,
+	String               $file_name    = $ss_sushi::cli_file_name,
+	String               $file_owner   = $ss_sushi::cli_file_owner,
+	String               $file_group   = $ss_sushi::cli_file_group,
+	String               $file_mode    = $ss_sushi::cli_file_mode,
 ) {
+	if ! defined(Class['ss_sushi']) {
+		fail('You must include the ss_sushi base class before using any ss_sushi defined resources')
+	}
+
 	file { "${file_dir}/deploy.ini":
 		ensure => present,
 		owner  => $file_owner,

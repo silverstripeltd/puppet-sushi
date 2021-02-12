@@ -3,15 +3,8 @@ define ss_sushi::vhost (
 	String           $domain_name  = undef,
 	Optional[Array]  $ops_env_vars = undef,
 	String           $vhost_name   = $name,
-	String           $vhost_root   = '/var/www',
 	Optional[String] $apache_root  = undef,
-	String           $apache_owner = 'root',
-	String           $apache_group = 'root',
 	Optional[String] $cli_root     = undef,
-	String           $cli_owner    = 'www-data',
-	String           $cli_group    = 'www-data',
-	String           $ss_env_owner = 'www-data',
-	String           $ss_env_group = 'www-data',
 ) {
 	if ! defined(Class['ss_sushi']) {
 		fail('You must include the ss)sushi base class before using any apache defined resources')
