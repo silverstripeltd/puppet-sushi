@@ -12,7 +12,7 @@ if [[ -z "$vhost" ]]; then
 fi
 
 # Remove non-alphanumeric characters
-VHOST_CLEAN=${vhost//[^a-zA-Z0-9]/}
+VHOST_CLEAN=${vhost//[^a-zA-Z0-9\-_]/}
 
 # Sets the environment variables
 for conf in <%= @cli_root %>/"$VHOST_CLEAN"/*.conf
