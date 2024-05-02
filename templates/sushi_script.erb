@@ -11,15 +11,18 @@ if [[ -z "$vhost" ]]; then
 	exit 2
 fi
 
+# Remove non-alphanumeric characters
+VHOST_CLEAN=${vhost//[^a-zA-Z0-9\-_]/}
+
 # Sets the environment variables
-for conf in <%= @cli_root %>/"$vhost"/*.conf
+for conf in <%= @cli_root %>/"$VHOST_CLEAN"/*.conf
 do
 	source $conf
 done
 
 # Use www directory to ensure correct release is used unless a release is specified
 if [[ -z "$release" ]]; then
-	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
+	RELEASE_DIR=<%= @vhost_root %>/"$VHOST_CLEAN"/www/
 else
 	RELEASE_DIR="$release"/
 fi
